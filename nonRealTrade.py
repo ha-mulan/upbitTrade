@@ -47,6 +47,7 @@ while True:
             seedMoney=0
             alreadyBought=True
     else:
+        stdscr.addstr(0, 0, f"""sell all""")
         time.sleep(0.2)
         df = pyupbit.get_ohlcv("KRW-BTC", interval='day', count=1)
         larry=GetBuyPoint(df)
