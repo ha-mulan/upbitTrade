@@ -18,12 +18,12 @@ stdscr = curses.initscr()
 count=0
 curTime=datetime.datetime.now()
 endTime=curTime
-endTime.replace(day = endTime.day+1)
-endTime.replace(hour = 9)
-endTime.replace(minute=0)
+endTime=endTime.replace(day = endTime.day+1)
+endTime=endTime.replace(hour = 9)
+endTime=endTime.replace(minute=0)
 
 
-# print(endTime)
+print(endTime)
 
 while True:
     star=["*"*i for i in range(0,80,10)]
@@ -31,6 +31,7 @@ while True:
     curTime=datetime.datetime.now()
     stdscr.addstr(0, 0, f"""
     현재 시각 {curTime}
+    마감 시간 {endTime}
     보유 btc: {curBtc}
     보유 총 평가: {seedMoney+curBtc*pyupbit.get_current_price('KRW-BTC')}
     보유 KRW: {seedMoney}
@@ -49,8 +50,10 @@ while True:
 
     if curTime<=endTime:
         time.sleep(0.2)
+        stdscr.addstr(0, 0, f"""진입""")
         if pyupbit.get_current_price('KRW-BTC')>=larry and not alreadyBought:
             #buy all
+            stdscr.addstr(0, 0, f"""buy all""")
             curses.beep()
             time.sleep(0.2)
             buyPrices=pyupbit.get_current_price('KRW-BTC')
@@ -59,9 +62,9 @@ while True:
             alreadyBought=True
     else:
         endTime=curTime
-        endTime.replace(day = endTime.day+1)
-        endTime.replace(hour = 9)
-        endTime.replace(minute=0)
+        endTime=endTime.replace(day = endTime.day+1)
+        endTime=endTime.replace(hour = 9)
+        endTime=endTime.replace(minute=0)
         stdscr.addstr(0, 0, f"""sell all""")
         time.sleep(0.2)
         df = pyupbit.get_ohlcv("KRW-BTC", interval='day', count=1)
